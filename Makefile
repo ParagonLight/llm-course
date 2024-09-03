@@ -1,5 +1,5 @@
 MARP := marp
-PREFIX := ghpages
+PREFIX := docs
 
 OBJECTS := $(PREFIX)/index.html 
 OBJECTS += $(PREFIX)/lecture1.html 
