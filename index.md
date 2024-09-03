@@ -8,11 +8,13 @@ marp: true
 ---
 
 <!-- ![bg right:50% 90%](images/hero-large_2x.png) -->
-![bg right:50% 90%](images/course.webp)
+![bg left:50% 90%](images/course.webp)
 
 <!-- - [课程概览](lecture1.html) -->
 
 # 智能应用开发
+徐经纬
+
   [课程目录](#2)
 
 <!-- <!--  -->
