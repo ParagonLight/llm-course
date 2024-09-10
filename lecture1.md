@@ -46,7 +46,7 @@ a[href='red'] {
 
 # 课程基本信息
 
-![bg right:50% 80%](images/qq.jpg)
+![bg right:50% 80%](images/l1/qq.jpg)
 
 - 课程大纲
 - 参考资料
@@ -59,7 +59,7 @@ a[href='red'] {
 
 ---
 
-<!-- ![bg right:20](images/iso.png) -->
+
 
 # 课程前身: iOS智能应用开发
 - Swift程序设计语言
@@ -73,13 +73,13 @@ a[href='red'] {
 # 课程大纲: LLM应用架构图
 
 
-![w:800 center](images/syllabus.svg)
+![w:800 center](images/l1/syllabus.svg)
 
 ---
 
 # 课程大纲: 授课脉络
 
-![w:700 center](images/syllabus_1.jpg)
+![w:700 center](images/l1/syllabus_1.jpg)
 
 ---
 
@@ -169,7 +169,7 @@ model.from_pretrained("meta-llama/Meta-Llama-3.1-8B-Instruct")
 
 ---
 
-![bg](images/chatgpt.jpg?text=ChatGPT)
+![bg](images/l1/chatgpt.jpg?text=ChatGPT)
 
 ---
 
@@ -185,7 +185,7 @@ model.from_pretrained("meta-llama/Meta-Llama-3.1-8B-Instruct")
 推理过程
 条件概率 $\mathrm{p}(y|x)$
 
-![bg right:63% 100%](images/generation.jpg)
+![bg right:63% 100%](images/l1/generation.jpg)
 
 ---
 
@@ -216,14 +216,14 @@ model.from_pretrained("meta-llama/Meta-Llama-3.1-8B-Instruct")
 
 # 语言模型
 
-![bg right:40% 80%](images/distribution.jpg)
+![bg right:40% 80%](images/l1/distribution.jpg)
 
 基本法: 链式法则
 
 句子由任意长度的字符串组成
 
-- 句子a = 今天我来到了苹果实验室。
-- 句子b = 今天苹果实验室我来到了。
+- 句子a = 今天我来到了仙II-212。
+- 句子b = 今天仙II-212我来到了。
 * 用概率衡量句子的“好”: $\mathrm{p}(a) > \mathrm{p}(b)$
 *自然语言处理(NLP)模型：估计出的(相对准确的)概率分布
 
@@ -254,7 +254,7 @@ $\mathrm{p}$(。|今天我上智能应用开发)
 
 # LLM的前寒武纪时期
 
-![bg right:43% 100%](images/transformer.png)
+![bg right:43% 100%](images/l1/transformer.png)
 
 * 2017年6月之前
   * RNN系列
@@ -289,8 +289,8 @@ img[alt~="bottom-right"] {
 <!-- ![top-right](images/gpt.png) -->
 
 <p align="center">
-  <img width="380" height="400" src="images/gpt.png">
-  <img width="450" height="400" src="images/bert.png">
+  <img width="380" height="400" src="images/l1/gpt.png">
+  <img width="450" height="400" src="images/l1/bert.png">
 </p>
 
 <!-- ![w:400 h:400](images/gpt.png)  ![w:320 h:320](images/bert.png) -->
@@ -307,13 +307,13 @@ img[alt~="bottom-right"] {
 
 ---
 
-![bg 60%](images/llm_tree.png)
+![bg 60%](images/l1/llm_tree.png)
 <!-- <p align="center">
   <img width="500" height="500" src="images/llm_tree.png">
 </p> -->
 ---
 
-![bg 90%](images/llama_family.png)
+![bg 90%](images/l1/llama_family.png)
 <!-- <p align="center">
   <img width="500" height="500" src="images/llm_tree.png">
 </p> -->
