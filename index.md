@@ -22,4 +22,5 @@ marp: true
 
 课程目录
   1. [课程简介](lecture1.html)
-  2. [深度学习基础](lecture2.html)
+  2. [深度学习基础 I](lecture2.html)
+  3. [深度学习基础 II](lecture3.html)

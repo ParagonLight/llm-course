@@ -35,9 +35,9 @@ a[href='red'] {
 
 ![bg left:45% 80%](images/course.webp)
 
-# **LLM智能应用开发**
+# **LLM智能应用开发** 
 
-第2讲: 深度学习基础
+第2讲: 深度学习基础 I
 
 <!-- https://marp.app/ -->
 

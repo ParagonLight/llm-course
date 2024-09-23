@@ -4,6 +4,7 @@ PREFIX := docs
 OBJECTS := $(PREFIX)/index.html 
 OBJECTS += $(PREFIX)/lecture1.html 
 OBJECTS += $(PREFIX)/lecture2.html 
+OBJECTS += $(PREFIX)/lecture3.html
 # OBJECTS += $(PREFIX)/14.html
 # OBJECTS += $(PREFIX)/15.html
 # OBJECTS += $(PREFIX)/16.html
