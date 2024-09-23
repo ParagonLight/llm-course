@@ -103,6 +103,7 @@ def forward(self, x):
 * 模型参数=$\sum$模型每层的参数
 
 <div style="display:contents;" data-marpit-fragment>
+
 闪回模型的层 $y=f(x)=xW^\top+b$
 
 ```python
