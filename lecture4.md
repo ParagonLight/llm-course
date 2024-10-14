@@ -147,7 +147,7 @@ LlamaForCausalLM(
   * embedding需训练
 * 例如：
   * 用户给LLM的输入: "你好，请介绍下南京大学"
-  * LLM经过预训练的embedding: "你好，请介绍下南京大学"
+  * LLM经过预训练的embedding: [[0.2234234,-0.28178,...]]
 
 <div style="display:contents;" data-marpit-fragment>
 翻译过程：一般由tokenizer实现
