@@ -99,7 +99,7 @@
 <div style="display:contents;" data-marpit-fragment>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">LlamaAttention</span>(nn.Module):
 ...
-<span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>()
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">hidden_states</span>)
   ...
   query_states = self.q_proj(hidden_states)
   key_states = self.k_proj(hidden_states)
