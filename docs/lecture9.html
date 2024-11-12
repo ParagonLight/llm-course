@@ -85,11 +85,9 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 </li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-marpit-fragments="1" data-paginate="true" data-background-color="#fff" data-theme="gaia" lang="zh-CN" data-marpit-pagination="6" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;" data-marpit-pagination-total="18">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-paginate="true" data-background-color="#fff" data-theme="gaia" lang="zh-CN" data-marpit-pagination="6" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;" data-marpit-pagination-total="18">
 <h1 id="%E5%AD%97%E5%85%B8%E7%BB%93%E6%9E%84">字典结构</h1>
-<ul>
-<li data-marpit-fragment="1">基本元素：input_ids 和 attention_mask</li>
-</ul>
+<p>基本元素：input_ids 和 attention_mask</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">encoded_input = tokenizer(<span class="hljs-string">&quot;Tell me a story about Nanjing University.&quot;</span>)
 </code></pre>
 <p>通过tokenizer编码后的token序列</p>
@@ -174,21 +172,19 @@ encoded_inputs = tokenizer(batch_sentences)
 }
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-marpit-fragments="4" data-paginate="true" data-background-color="#fff" data-theme="gaia" lang="zh-CN" data-marpit-pagination="12" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;" data-marpit-pagination-total="18">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-marpit-fragments="3" data-paginate="true" data-background-color="#fff" data-theme="gaia" lang="zh-CN" data-marpit-pagination="12" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;" data-marpit-pagination-total="18">
 <h1 id="padding-1">Padding</h1>
 <ul>
 <li data-marpit-fragment="1">指定长度进行padding</li>
-<li data-marpit-fragment="2">
-<div style="display:contents;" data-marpit-fragment>
-</li>
 </ul>
+<div style="display:contents;" data-marpit-fragment>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">encoded_input = tokenizer(batch_sentences, padding=<span class="hljs-string">&quot;max_length&quot;</span>, max_length=<span class="hljs-number">20</span>, truncation=<span class="hljs-literal">True</span>)
 </code></pre>
 </div>
 <ul>
-<li data-marpit-fragment="3">控制padding方向: padding_side
+<li data-marpit-fragment="2">控制padding方向: padding_side
 <ul>
-<li data-marpit-fragment="4">tokenizer.padding_side: left or right</li>
+<li data-marpit-fragment="3">tokenizer.padding_side: left or right</li>
 </ul>
 </li>
 </ul>
@@ -236,7 +232,7 @@ ds = load_dataset(<span class="hljs-string">&quot;yahma/alpaca-cleaned&quot;</sp
 </li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-marpit-fragments="2" data-paginate="true" data-background-color="#fff" data-theme="gaia" lang="zh-CN" data-marpit-pagination="15" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;" data-marpit-pagination-total="18">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-marpit-fragments="3" data-paginate="true" data-background-color="#fff" data-theme="gaia" lang="zh-CN" data-marpit-pagination="15" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;" data-marpit-pagination-total="18">
 <h1 id="%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE%E9%9B%86-1">加载数据集</h1>
 <ul>
 <li data-marpit-fragment="1">需实现数据集的预处理方法，并交由Datasets的map方法调用
@@ -251,7 +247,9 @@ ds = load_dataset(<span class="hljs-string">&quot;yahma/alpaca-cleaned&quot;</sp
   <span class="hljs-keyword">return</span> ...
 </code></pre>
 </div>
-* 调用预处理方法
+<ul>
+<li data-marpit-fragment="3">调用预处理方法</li>
+</ul>
 <div style="display:contents;" data-marpit-fragment>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">ds = load_dataset(<span class="hljs-string">&quot;yahma/alpaca-cleaned&quot;</span>, split=<span class="hljs-string">&#x27;train[:100]&#x27;</span>)
 ds = ds.<span class="hljs-built_in">map</span>(tokenize_function, batched=<span class="hljs-literal">True</span>)
