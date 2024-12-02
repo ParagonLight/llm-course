@@ -37,7 +37,7 @@ a[href='red'] {
 
 # **LLM智能应用开发**
 
-第7讲: 大语言模型解析 VI
+第9讲: 大语言模型解析 VI
 
 基于HF LlaMA实现的讲解
 
@@ -111,7 +111,7 @@ encoded_input = tokenizer("Tell me a story about Nanjing University.")
 
 # 字典结构
 
-* 基本元素：input_ids 和 attention_mask
+基本元素：input_ids 和 attention_mask
 ```python
 encoded_input = tokenizer("Tell me a story about Nanjing University.")
 ```
@@ -214,7 +214,8 @@ encoded_input = tokenizer(batch_sentences, padding=True)
 
 
 * 指定长度进行padding
-* <div style="display:contents;" data-marpit-fragment>
+
+<div style="display:contents;" data-marpit-fragment>
   
 ```python
 encoded_input = tokenizer(batch_sentences, padding="max_length", max_length=20, truncation=True)
@@ -275,6 +276,7 @@ def tokenize_function(dataset):
   ```
 
 </div>
+
 * 调用预处理方法
 <div style="display:contents;" data-marpit-fragment>
 

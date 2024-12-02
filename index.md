@@ -30,3 +30,10 @@ marp: true
   7. [大语言模型解析 IV: Flash Attention](lecture7.html)
   8. [大语言模型解析 V: MoE, LoRA](lecture8.html)
   9. [大语言模型解析 VI: Fine-tuning](lecture9.html)
+
+
+---
+
+课程目录
+  10.  [大语言模型解析 VII: LLM save/load](lecture10.html)
+  11.  [大语言模型解析 VII: LLM 推理, 解码策略, KVCache](lecture11.html)
