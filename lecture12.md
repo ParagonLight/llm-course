@@ -37,303 +37,273 @@ a[href='red'] {
 
 # **LLM智能应用开发**
 
-第11讲: 大语言模型解析 VIII
-
-基于HF LlaMA实现的讲解
+第12讲: LLM推理的应用
+检索增强生成(RAG)
 
 <!-- https://marp.app/ -->
 
 ---
 
-# LLM结构的学习路径
+# LLM的能力
 
-* LLM结构解析(开源LlaMA)
-* 自定义数据集构造
-* 自定义损失函数和模型训练/微调
-* **让我们再次动起来：LLM推理过程**
+* 通过推理(inference)，可以由LLM实现：
+  * 理解和生成文本
+    * 基于输入
 
----
-
-# LLM推理过程二三事
-
-* LLM二阶段推理
-* KV-caching机制
-
----
-
-#  LLM的输入输出
-
-![w:1000 center](images/l11/pipeline.png)
-
----
-
-#  LLM推理过程中实际涉及的步骤
-
-![w:1000 center](images/l11/pipeline_with_tokens.png)
-
-* LLM的一次推理输出logits，并非token
-* 要得到token，还需通过Decoding strategy对logits进行解码
-
----
-
-
-#  LLM推理过程中实际涉及的步骤
-
-* LlaMAModel获得最后一层DecoderLayer的输出
-* LM_head获得logits
-* Decoding strategy解码logits得到token
-
-* 常用的Decoding strategy有：
-  * Greedy decoding
-  * Sampling
-  * Beam search
-
----
-
-# LLM的解码(decoding)策略
-
-* 如果我们把logits(通过softmax转换为token的概率分布)作为输入，通常有如下解码策略：
-  * 贪婪解码(Greedy Decoding)：每次直接选择概率最高的token，简单高效，但并非全局最优
-  * 采样(Sampling)：按一定的采样策略选择一个单词，增加生成过程的多样性，但可能会导致生成的文本不连贯
-  * Beam Search：通过维护一个长度为k的候选序列集，每一步(单token推理)从每个候选序列的概率分布中选择概率最高的k个token，再考虑序列概率，保留最高的k个候选序列
-
----
-
-# 采样策略
-
-* 一切从随机出发，叠加控制
-  * 随机采样
-  * Top-k采样
-  * Top-p采样(核采样，Nucleus sampling)
-  * Top-k+Top-p采样
+* 输入从何而来？
+  * 用户手动输入
+  * 以及掌握的知识
 
 
 ---
 
-# 采样策略: top-k采样
+# 把LLM想象成选了本课程的学生
 
-输入：南京大学计算机学院的课程有
-概率分布: {算法:0.4, 操作系统:0.3, 计算机:0.2, 数据:0.05, ...}
-* top-k采样，每次从概率最高的k个单词中进行随机采样
-* 例如k=2，有可能生成的输出有
-  * 南京大学计算机学院的课程有算法
-  * 南京大学计算机学院的课程有操作系统
-* 贪婪解码本质是一种top-k采样(k=1)
-
----
-
-# 采样策略: top-p采样
-
-* top-p采样，源自[The Curious Case of Neural Text Degeneration](https://arxiv.org/pdf/1904.09751)
-* 核心思路，重构采样集合
-  * 给定token分布$P(x\mid x_{x_{1:i-1}})$，top-p集合$V^{(p)}\subset V$，使得$P(x\mid x_{x_{1:i-1}}\geq p)$
-  * 和top-k很像，区别在于在什么位置对分布进行截断
-
----
-
-# HF关于采样策略的实现
-
-* 参考:[top_k_top_p_filtering](https://github.com/huggingface/transformers/blob/c4d4e8bdbd25d9463d41de6398940329c89b7fb6/src/transformers/generation_utils.py#L903) (老版本)
-* 参考:
-  * src/transformers/generation/logits_process.py
-    * TopPLogitsWarper
-    * TopKLogitsWarper
-  * src/transformers/generation/utils.py
-    * _get_logits_processor
-      * 先topk，再topp
-
----
-
-# LLM推理之两大阶段
-
-* 基于LLM自回归生成(autoregressive generation)的特点
-  * 逐token生成，生成的token依赖于前面的token
-  * 一次只能生成一个token，无法同时生成多个token
-* LLM生成过程分为两个阶段
-  * Prefill phase
-  * Decoding phase
-
----
-
-# LLM推理第一阶段: Prefill
-
-输入token序列，输出下一个token
-
-![w:900 center](images/l11/prefill.jpg)
-
----
-
-# LLM推理第二阶段: Decoding
-
-![w:700 center](images/l11/decoding1.jpg)
-![w:700 center](images/l11/decoding2.jpg)
-
----
-
-# LLM推理第二阶段: Decoding
-
-![w:700 center](images/l11/decoding2.jpg)
-![w:700 center](images/l11/decoding4.jpg)
+* 当$\mathrm{x}=[1,2,3,4]$时，$softmax(\mathrm{x})$的结果是多少？
+  * 需要掌握的知识：$softmax$函数的定义
+* 请问基于本科生学籍管理办法，满足毕业要求需要修满多少学分？
+  * 需要掌握的知识：学籍管理办法的规定
+  * 需要掌握的知识：毕业要求的定义
+  * 需要掌握的知识：学分的定义
+  * 需要掌握的知识：学分的计算方法
+* 信息来源：某《本科生学籍管理规定》中的内容
 
 
 ---
 
-# LLM完成推理后，解码
 
-将生成的token序列解码成文本
+# 传统的大模型文本生成方式
 
-![w:700 center](images/l11/decodingAll.jpg)
+* 预训练模型生成：直接使用预训练的大语言模型，根据输入的提示生成文本
+  * 依赖模型内部知识：模型基于训练数据中的模式和知识进行生成
+
+* 存在的缺点:
+  * 幻觉问题：模型可能生成不准确或虚构的信息
+  * 上下文长度限制：模型能处理的输入长度有限，无法涵盖大量的背景信息
+  * 知识更新滞后：模型的知识截至训练时间，无法包含最新的信息
 
 ---
 
-# LLM二阶段推理解析
+# "一个形象的比喻"
 
-* 将LLM当作函数，输入是token序列，输出是下一个token
-* LLM通过自回归(autoregressive generation)不断生成"下一个token"
-* 脑补下当LLM接收到输入的token序列后如何进行下一个token的推理
+* 预训练好的大语言模型(pretrained LLM): 丰富的基础语言能力，但缺乏专业知识
+  * “熟读唐诗300首的孩子，只能balabala的说”
+* 专业的知识微调模型(fine-tuned LLM): 基于预训练模型的基础能力，加入了专业知识，可以回答专业问题
+  * “熟读唐诗300首的孩子，经过了作诗的特训，可以出口成章”
+* 一个指令微调后的模型+搜索引擎：可通过“搜索”查询相关的外部知识，从而回答专业问题
+  * “熟读唐诗300首的孩子，经过了作诗的特训，可以**搜索到相关的作诗作品当作作诗的参照**”
+
+---
+
+# 微调的代价
+
+用专业的知识微调LLM，从而赋予其回答专业问题的能力。
+
+然而：
+* 成本高昂：微调需要大量的数据和计算资源
+* 不易维护：每次知识更新都需要重新微调模型
+* 过拟合风险：可能导致模型在特定领域过拟合，降低泛化能力
 
 <div style="display:contents;" data-marpit-fragment>
 
-![w:1000 center](images/l11/pipeline_with_tokens.png)
+如果能为LLM引入一个搜索引擎，可自动按照用户输入的意图检索相关的信息，从而实现/提升回答专业问题的能力，那就完美
 
 </div>
 
 ---
 
-# LLM推理过程会产生一些中间变量
+# 为LLM引入 RAG 技术
 
-第一个"下一个token"生成: 输入token序列"经过"(调用forward方法)N层Decoder layer后，的到结果
-细看其中一层Decoder layer,frward方法会返回若干中间输出，被称之为激活(activation)
-![w:700 center](images/l11/pipeline.png)
+**什么是 RAG?**
+
+* RAG（Retrieval-Augmented Generation）：检索增强生成，是一种结合了检索和生成的模型架构
+* 核心思想：在生成文本时，先从外部知识库中检索相关信息，再结合这些信息进行生成
+
+---
+
+# RAG 的优势
+
+* 减少幻觉：通过检索真实的资料，降低生成错误信息的概率
+* 突破上下文限制：外部知识库可以包含大量信息，不受模型上下文长度限制
+* 动态更新知识：知识库可以随时更新，模型能够利用最新的信息
+
+---
+
+![bg 80%](images/l12/RAG_with_LangChain.png)
+
+---
+
+# RAG的主要组成部分
+
+检索增强生成(RAG)的主要组成部分包括:
+
+* **索引构建**: 为“知识”数据构建索引/知识库，以便快速检索
+  * 知识库构建通常为Offline，存储形式一般为向量化数据库
+* **检索和生成**: 基于用户输入的问题，从索引中检索相关的知识，并结合知识让LLM进行文本生成
+  * 检索
+  * 生成
 
 
 ---
 
-# Prefill phase
-
-* 第一个"下一个token"生成过程被称之为Prefill阶段
-* 为何特殊对待？
-  * 计算开销大
-* 简单推导一下一次LLM的推理过程的计算开销
 
 
----
+# 知识库构建
 
-# 计算开销
+* **数据预处理**：对文档进行清洗、分句等处理
+* **向量化表示**：将文本转换为向量，以便于检索
+  * 通常基于向量化数据库进行存储(如[Faiss](https://github.com/facebookresearch/faiss), [Milvus](https://github.com/milvus-io/milvus))
+* **索引构建**：建立高效的检索索引结构
 
-* 符号约定
-  * b: batch size
-  * s: sequence length
-  * h: hidden size/dimension
-  * nh: number of heads
-  * hd: head dimension
+* 知识库存储大量专业领域知识，既便于快速查找，又可以动态更新，只需对新文档进行同样的数据处理即可
 
 ---
 
-# 计算开销
+# 索引构建
 
-
-* 给定矩阵$A\in R^{1\times n}$和矩阵$B\in R^{n\times 1}$，计算$AB$需要$n$次乘法操作和$n$次加法操作，总计算开销为$2n$ (FLOPs)
-  * FLOPs: floating point operations
-* 给定矩阵$A\in R^{m\times n}$和矩阵$B\in R^{n\times p}$，计算$AB$中的一个元素需要$n$次乘法操作和$n$次加法操作，一共有$mp$个元素，总计算开销为$2mnp$ 
+![w:1000 center](images/l12/rag_indexing.png)
 
 ---
 
-# Self-attn模块
+# 检索
 
-* 第一步计算: $Q=xW_q$, $K=xW_k$, $V=xW_v$
-  * 输入x的shape: $(b,s,h)$，weight的shape: $(h,h)$
-  * Shape视角下的计算过程: $(b,s,h)(h,h)\rightarrow(b,s,h)$
-    * 如果在此进行多头拆分(reshape/view/einops)，shape变为$(b,s,nh,hd)$，其中$h=bh*hd$
-  * 计算开销: $3\times 2bsh^2\rightarrow 6bsh^2$
-
----
-
-# Self-attn模块
-
-* 第二步计算: $x_{\text{out}}=\text{softmax}(\frac{QK^T}{\sqrt{h}})VW_o+x$
-  * $QK^T$计算: $(b,nh,s,hd)(b,nh,hd,s)\rightarrow (b,nh,s,s)$
-    * 计算开销: $2bs^2h$
-  * $\text{softmax}(\frac{QK^T}{\sqrt{h}})V$计算: $(b,nh,s,s)(b,bh,s,hd)\rightarrow(b,nh,s,hd)$
-    * 计算开销: $2bs^2h$
-* 第三步$W_o$计算: $(b,s,h)(h,h)\rightarrow(b,s,h)$
-  * 计算开销: $2bsh^2$
-* Self-attn模块总计算开销: $8bsh^2+4bs^2h$
----
-
-# MLP模块
-
-$$x=f_\text{activation}(x_{\text{out}}W_{\text{up}})W_{\text{down}}+x_{\text{out}}$$
-* 第一步计算，假设上采样到4倍
-  * Shape变化:$(b,s,h)(h,4h)\rightarrow(b,s,4h)$
-  * 计算开销: $8bsh^2$
-* 第二步计算，假设下采样回1倍
-  * Shape变化:$(b,s,4h)(4h,h)\rightarrow(b,s,h)$
-  * 计算开销: $8bsh^2$
-* MLP模块总计算开销: $16bsh^2$
-
+* **原理**：将问题和文档表示为高维向量，通过计算向量之间的相似度（如余弦相似度）来检索相关文档
+* **流程**：
+  1. **向量化表示**：使用预训练模型将问题转换为向量
+  2. **检索**：通过快速搜索算法找到与问题向量最相似的文档向量
 
 ---
 
-# Decoder layer模块计算开销
+# 生成
 
-* Self-attn模块计算开销: $8bsh^2+4bs^2h$
-* MLP模块计算开销: $16bsh^2$
-* Decoder layer模块计算开销: $24bsh^2+4bs^2h$
-
-* 以上为一次推理的计算开销，开销为sequence的平方级别
-
----
-
-# Decoding phase
-
-* 当第一个"下一个token"生成完毕后，LLM开始"自回归推理"生成
-* 第二个"下一个token"
-  * 输入x的shape: $(b,s+1,h)$，继续以上推理过程
-* 第三个"下一个token"
-  * 输入x的shape: $(b,s+2,h)$，继续以上推理过程
-* 第n个"下一个token"
-  * 输入x的shape: $(b,s+n-1,h)$，继续以上推理过程
-* 自回归推理过程的计算开销
-* 每次自回归推理过程，都需要平方级别的开销？
-  * 且包含了计算开销和内存开销
-
+* 接收检索到的文档和原始输入，填充 prompt 模板，作为新的输入
+* 将新的 prompt 输入给模型，从而生成基于专业知识的回答
+* 针对生成结果的优化，可能涉及重排（Rerank）、重写（Rewrite）等技术：
+  * **重写**：对用户的输入问题进行改写，使其更加清晰及符合上下文
+  * **重排**：对检索出的结果根据相关性进行排序，使最相关的文档排在最前面，提高输入的质量
 
 ---
 
-# 回顾Self-attn中$QK^T$的计算过程
+# 检索和生成的基本流程
 
-* 第一个"下一个token"
-  * $QK^T$计算: $(b,nh,s,hd)(b,nh,hd,s)\rightarrow (b,nh,s,s)$
-* 第二个"下一个token"
-  * $QK^T$计算: $(b,nh,s+1,hd)(b,nh,hd,s+1)\rightarrow (b,nh,s+1,s+1)$
-* 考虑自回归特性，$(s,s)$和$(s+1,s+1)$为下三角阵
-  * $(s+1,s+1)$的前$s$行就是$(s,s)$
-* 考虑复用$(s,s)$？
+![w:1000 center](images/l12/rag_retrieval_generation.png)
 
 ---
 
-# LLM自回归过程中的复用
 
-* 要复用什么，还得从需求出发
-* 需求: 生成"下一个token" 
-* Decoder layers之后的lm_head计算
-  * shape视角: $(b,s,h)(h,V)\rightarrow (b,s,V)$
-* 生成第二个"下一个token"
-  * shape视角: $(b,s+1,h)(h,V)\rightarrow (b,s+1,V)$
-  * 第二个"下一个token"的logits在$(b,s+1,V)$中第二个维度index $s+1$处，该logits只受$(b,s+1,h)$中第二个维度index $s+1$处的值影响
 
----
+# 使用 LangChain 实现 RAG
 
-# LLM自回归过程中的复用
+**LangChain**：一个用于构建基于语言模型的应用程序的框架，支持组合 LLM 与其他组件。这个框架由几个部分组成：
 
-* 真正要复用的是用于计算$(b,s+1,h)$中第二维度index $s+1$的数值
-  * shape的视角: $(b,s+1,h)\rightarrow (b,1,V)$
-* 整个self-attn计算过程中，只有$QK^T$中的$K$和$\text{softmax}(\frac{QK^T}{\sqrt(h)})V$中的$V$需要复用
-  * 为K和V构建缓存: 即KVCache
+* LangChain 库：Python 和 JavaScript 库。包含了各种组件的接口和集成，一个基本的运行时，用于将这些组件组合成链和代理，以及现成的链和代理的实现
+* LangChain 模板：一系列易于部署的参考架构，用于各种任务
+* LangServe：一个用于将 LangChain 链部署为 REST API 的库
+* LangSmith：一个开发者平台，让你可以调试、测试、评估和监控基于任何 LLM 框架构建的链，并且与 LangChain 无缝集成
 
 ---
 
-# Self-attn例
+# 示例代码
 
-![w:500 center](images/l11/attn_example.jpg)
+导入 LangChain 库
+
+```python
+import bs4
+from langchain import hub
+from langchain_community.document_loaders import WebBaseLoader
+from langchain_core.documents import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langgraph.graph import START, StateGraph
+from typing_extensions import List, TypedDict
+```
+
+---
+
+# 创建 Embedding + LLM 模型实例
+
+```python
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(model="gpt-4o-mini")
+
+from langchain_openai import OpenAIEmbeddings
+
+embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
+```
+
+---
+
+# 加载并处理数据
+
+```python
+# Load and chunk contents of the blog
+loader = WebBaseLoader(
+    web_paths=("https://lilianweng.github.io/posts/2023-06-23-agent/",),
+    bs_kwargs=dict(
+        parse_only=bs4.SoupStrainer(
+            class_=("post-content", "post-title", "post-header")
+        )
+    ),
+)
+docs = loader.load()
+
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+all_splits = text_splitter.split_documents(docs)
+```
+
+---
+
+# 建立向量数据库
+
+```python
+from langchain_core.vectorstores import InMemoryVectorStore
+
+vector_store = InMemoryVectorStore(embeddings)
+
+# Index chunks
+_ = vector_store.add_documents(documents=all_splits)
+```
+
+拉取 prompt 模板：
+
+```python
+# Define prompt for question-answering
+prompt = hub.pull("rlm/rag-prompt")
+```
+
+---
+
+# 定义状态类及检索、生成函数
+
+```python
+# Define state for application
+class State(TypedDict):
+    question: str
+    context: List[Document]
+    answer: str
+
+# Define application steps
+def retrieve(state: State):
+    retrieved_docs = vector_store.similarity_search(state["question"])
+    return {"context": retrieved_docs}
+
+def generate(state: State):
+    docs_content = "\n\n".join(doc.page_content for doc in state["context"])
+    messages = prompt.invoke({"question": state["question"], "context": docs_content})
+    response = llm.invoke(messages)
+    return {"answer": response.content}
+```
+
+---
+
+# 创建工作流程并测试
+
+```python
+# Compile application and test
+graph_builder = StateGraph(State).add_sequence([retrieve, generate])
+graph_builder.add_edge(START, "retrieve")
+graph = graph_builder.compile()
+
+response = graph.invoke({"question": "What is Task Decomposition?"})
+print(response["answer"])
+```
