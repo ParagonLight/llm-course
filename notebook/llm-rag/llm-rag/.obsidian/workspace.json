@@ -1,0 +1,183 @@
+{
+  "main": {
+    "id": "82eaaef0cdd36579",
+    "type": "split",
+    "children": [
+      {
+        "id": "e1ee1f1294dc64aa",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "def815251cf818c2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "LLM-RAG.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "LLM-RAG"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "510969a3ac6ab2f9",
+    "type": "split",
+    "children": [
+      {
+        "id": "4560e7751fb9a4ec",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fcf9a305ed30e376",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "8911caacd28d0098",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "d5ea8fd3196e65d1",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "6cdad96cec97f242",
+    "type": "split",
+    "children": [
+      {
+        "id": "b4bdc71719399c23",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5d939d38b7e35e76",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "LLM-RAG.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "LLM-RAG 的反向链接列表"
+            }
+          },
+          {
+            "id": "5857c2290687ded2",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "LLM-RAG.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "LLM-RAG 的出链列表"
+            }
+          },
+          {
+            "id": "82c33c48033fcec8",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "b642bc496f54a5a8",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "LLM-RAG.md"
+              },
+              "icon": "lucide-list",
+              "title": "LLM-RAG 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false
+    }
+  },
+  "active": "def815251cf818c2",
+  "lastOpenFiles": [
+    "images/BERT.png",
+    "images/chunk.png",
+    "images/chatgpt.png",
+    "images/phd.png",
+    "images/song.png",
+    "images/Pasted image 20241207172007.png",
+    "images/motto.png",
+    "images/phd.png",
+    "images/auto_merging.png",
+    "images/sentence_window.png",
+    "images/Pasted image 20241207152154.png",
+    "images",
+    "LLM-RAG.md",
+    "lecture12.md",
+    "欢迎.md"
+  ]
+}

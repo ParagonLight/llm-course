@@ -1,0 +1,9 @@
+haystack-ai
+sentence-transformers
+accelerate
+trafilatura
+qdrant-haystack
+fastembed-haystack
+nltk
+rerankers
+prompt_toolkit
