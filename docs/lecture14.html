@@ -147,7 +147,7 @@ Megatron 中的并行化技术介绍</p>
 <p>在 PipeDream-Flush 的基础上，Megatron 进一步将每个微批次划分为多个阶段，使得每个 GPU 上保存多个不同的连续阶段，例如：</p>
 <ul>
 <li>原本 GPU1 上保存 layer 1-4；GPU2 上保存 layer 5-8；等等；</li>
-<li>现在 GPU1 上保存 layer 1,2,8,9；GPU2 上保存 layer 3,4,11,12；等等。<br />
+<li>现在 GPU1 上保存 layer 1,2,9,10；GPU2 上保存 layer 3,4,11,12；等等。<br />
 <img src="./images/l14/PP_In_Megatron.png" alt="center" style="width:1000px;" /></li>
 </ul>
 </section>
